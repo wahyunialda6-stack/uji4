@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPG Photobooth — Gelar Karya Kelompok B PPKn 2026</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Playfair Display (Serif header), Rye (Western Wanted title), Special Elite (Typewriter / Newspaper effect) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Rye&family=Special+Elite&family=Ultra&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Vintage Styles & Fallbacks */
+    body {
+      background-color: #2a241e;
+      color: #1a1612;
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .font-wanted {
+      font-family: 'Rye', 'Ultra', serif;
+    }
+
+    .font-newspaper {
+      font-family: 'Special Elite', 'Courier New', monospace;
+    }
+
+    /* Paper Texture Effect */
+    .paper-texture {
+      background-color: #f2e8d5;
+      background-image: 
+        radial-gradient(hsla(30, 20%, 20%, 0.08) 1px, transparent 0),
+        linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+      background-size: 20px 20px, 100% 4px, 4px 100%;
+      box-shadow: inset 0 0 80px rgba(80, 50, 20, 0.25), 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Vignette Overlay for Photobooth feel */
+    .vignette {
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Smooth Transitions */
+    .btn-vintage {
+      transition: all 0.2s ease-in-out;
+      border: 2px solid #1a1612;
+      box-shadow: 3px 3px 0px #1a1612;
+    }
+
+    .btn-vintage:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0px #1a1612;
+    }
+
+    .btn-vintage:active:not(:disabled) {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px #1a1612;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #2a241e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #8c6b48;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-900 selection:text-amber-100">
+
+  <!-- Header Navigation -->
+  <header class="border-b-2 border-amber-900/40 bg-stone-900 text-amber-100 py-3 px-4 sm:px-8 flex justify-between items-center shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="p-1.5 bg-amber-800 rounded border border-amber-600">
+        <i data-lucide="camera" class="w-5 h-5 text-amber-100"></i>
+      </div>
+      <div>
+        <h1 class="font-wanted text-lg tracking-wider text-amber-200 leading-tight">PPG PHOTOBOOTH</h1>
+        <p class="text-xs text-amber-400/80 font-newspaper">Gelar Karya Kelompok B PPKn 2026</p>
+      </div>
+    </div>
+    <div class="text-right">
+      <span id="sessionBadge" class="text-xs px-2.5 py-1 bg-amber-950 border border-amber-700/60 text-amber-300 rounded font-newspaper uppercase">
+        Sesi Aktif
+      </span>
+    </div>
+  </header>
+
+  <!-- Step Indicator -->
+  <div class="bg-stone-950 py-3 px-4 border-b border-stone-800 overflow-x-auto">
+    <div class="max-w-4xl mx-auto flex items-center justify-between min-w-[500px] text-xs font-newspaper">
+      <div id="step-1-indicator" class="flex items-center text-amber-400 font-bold">
+        <span class="w-6 h-6 rounded-full border border-amber-500 bg-amber-950 flex items-center justify-center mr-2">1</span>
+        Pembuka
+      </div>
+      <div class="h-0.5 flex-1 bg-stone-800 mx-2"></div>
+      <div id="step-2-indicator" class="flex items-center text-stone-500">
+        <span class="w-6 h-6 rounded-full border border-stone-700 bg-stone-900 flex items-center justify-center mr-2">2</span>
+        Kamera
+      </div>
+      <div class="h-0.5 flex-1 bg-stone-800 mx-2"></div>
+      <div id="step-3-indicator" class="flex items-center text-stone-500">
+        <span class="w-6 h-6 rounded-full border border-stone-700 bg-stone-900 flex items-center justify-center mr-2">3</span>
+        Filter
+      </div>
+      <div class="h-0.5 flex-1 bg-stone-800 mx-2"></div>
+      <div id="step-4-indicator" class="flex items-center text-stone-500">
+        <span class="w-6 h-6 rounded-full border border-stone-700 bg-stone-900 flex items-center justify-center mr-2">4</span>
+        Pembayaran
+      </div>
+      <div class="h-0.5 flex-1 bg-stone-800 mx-2"></div>
+      <div id="step-5-indicator" class="flex items-center text-stone-500">
+        <span class="w-6 h-6 rounded-full border border-stone-700 bg-stone-900 flex items-center justify-center mr-2">5</span>
+        Unduh
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 md:p-8 flex items-center justify-center">
+
+    <!-- STEP 1: WELCOME SCREEN -->
+    <section id="welcomeScreen" class="w-full max-w-2xl">
+      <div class="paper-texture p-6 sm:p-10 rounded-sm border-4 border-stone-900 relative">
+        <div class="border-2 border-stone-900 p-6 sm:p-8 text-center flex flex-col items-center">
+          
+          <div class="flex items-center justify-between w-full border-b-2 border-stone-900 pb-3 mb-6 font-newspaper text-xs sm:text-sm">
+            <span>VOL. 02, NO. 2026</span>
+            <span class="font-bold">✦ GELAR KARYA ✦</span>
+            <span>KELOMPOK B PPKn</span>
+          </div>
+
+          <span class="text-xs tracking-widest text-amber-900 font-bold uppercase mb-1 font-newspaper">OFFICIAL PHOTOBOOTH</span>
+          <h2 class="font-wanted text-4xl sm:text-6xl text-stone-900 mb-2 tracking-wide">PPG PHOTOBOOTH</h2>
+          <p class="font-bold text-stone-800 text-sm sm:text-base mb-4 italic">PPG Calon Guru Gelombang 2 Tahun 2026</p>
+          
+          <div class="w-24 h-0.5 bg-stone-900 mb-6"></div>
+
+          <p class="text-stone-800 font-newspaper text-sm sm:text-base leading-relaxed mb-8 max-w-lg">
+            “Abadikan momen kebersamaan dan kreativitas dalam Gelar Karya PPG Calon Guru. Buat kenangan manis Anda dalam format Poster Vintage Wanted Klasik.”
+          </p>
+
+          <div class="bg-amber-100/80 border-2 border-stone-900 p-4 rounded w-full max-w-sm mb-8 font-newspaper">
+            <div class="text-xs uppercase text-stone-600 font-bold tracking-wider mb-1">Rincian Sesi</div>
+            <div class="text-2xl font-bold text-stone-900">Rp 15.000 <span class="text-xs text-stone-600 font-normal">/ 1 Sesi Poster (4 Foto)</span></div>
+          </div>
+
+          <button id="startBtn" onclick="goToStep(2)" class="btn-vintage bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold py-4 px-8 text-lg sm:text-xl rounded uppercase tracking-wider flex items-center space-x-3 cursor-pointer">
+            <i data-lucide="camera" class="w-6 h-6"></i>
+            <span>MULAI PHOTOBOOTH</span>
+          </button>
+
+          <p class="mt-4 text-xs text-stone-600 font-newspaper">
+            *Membutuhkan izin akses kamera browser atau upload foto lokal.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: CAMERA CAPTURE -->
+    <section id="cameraScreen" class="w-full max-w-3xl hidden">
+      <div class="paper-texture p-4 sm:p-6 rounded-sm border-4 border-stone-900">
+        <div class="border-2 border-stone-900 p-4 sm:p-6">
+          
+          <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-stone-900">
+            <div>
+              <h3 class="font-wanted text-xl text-stone-900">AMBIL FOTO PHOTOBOOTH</h3>
+              <p class="text-xs font-newspaper text-stone-700">Kumpulkan 4 foto untuk poster vintage Anda</p>
+            </div>
+            <div class="text-right">
+              <span id="photoCountBadge" class="bg-stone-900 text-amber-200 text-xs font-newspaper px-3 py-1.5 rounded font-bold">
+                Foto 0 dari 4
+              </span>
+            </div>
+          </div>
+
+          <!-- Video Viewport & Camera Stream -->
+          <div class="relative bg-stone-950 rounded border-2 border-stone-900 aspect-[4/3] w-full overflow-hidden flex items-center justify-center mb-6">
+            <video id="videoFeed" autoplay playsinline class="w-full h-full object-cover transform -scale-x-100"></video>
+            
+            <!-- Countdown Overlay -->
+            <div id="countdownOverlay" class="absolute inset-0 bg-stone-950/70 flex items-center justify-center hidden">
+              <span id="countdownText" class="font-wanted text-8xl text-amber-400 animate-ping">3</span>
+            </div>
+
+            <!-- Flash Animation Overlay -->
+            <div id="flashOverlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none transition-opacity duration-150"></div>
+
+            <!-- Fallback / No Camera Warning -->
+            <div id="cameraErrorMsg" class="absolute inset-0 p-6 flex flex-col items-center justify-center text-center bg-stone-900 text-amber-100 hidden">
+              <i data-lucide="camera-off" class="w-12 h-12 text-amber-500 mb-3"></i>
+              <p class="font-bold mb-2">Kamera Tidak Tersedia / Izin Ditolak</p>
+              <p class="text-xs font-newspaper text-stone-400 max-w-md mb-4">
+                Pastikan situs dibuka menggunakan protokol <b>HTTPS</b> atau <b>localhost</b> dan izin kamera diberikan pada browser.
+              </p>
+              <label class="btn-vintage bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold py-2.5 px-4 text-xs rounded cursor-pointer flex items-center space-x-2">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                <span>UNGGAH FOTO DARI PERANGKAT</span>
+                <input type="file" id="fallbackFileInput" accept="image/*" multiple class="hidden" onchange="handleFileUpload(event)">
+              </label>
+            </div>
+          </div>
+
+          <!-- Captured Thumbnails Grid -->
+          <div class="grid grid-cols-4 gap-2 mb-6">
+            <div id="slot-0" class="aspect-square bg-stone-300 border-2 border-stone-900 rounded relative overflow-hidden flex items-center justify-center text-stone-500 font-newspaper text-xs">Slot 1</div>
+            <div id="slot-1" class="aspect-square bg-stone-300 border-2 border-stone-900 rounded relative overflow-hidden flex items-center justify-center text-stone-500 font-newspaper text-xs">Slot 2</div>
+            <div id="slot-2" class="aspect-square bg-stone-300 border-2 border-stone-900 rounded relative overflow-hidden flex items-center justify-center text-stone-500 font-newspaper text-xs">Slot 3</div>
+            <div id="slot-3" class="aspect-square bg-stone-300 border-2 border-stone-900 rounded relative overflow-hidden flex items-center justify-center text-stone-500 font-newspaper text-xs">Slot 4</div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t-2 border-stone-900">
+            <button onclick="goToStep(1)" class="btn-vintage bg-stone-300 hover:bg-stone-200 text-stone-900 font-bold py-2.5 px-4 text-sm rounded flex items-center space-x-2">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              <span>Kembali</span>
+            </button>
+
+            <div class="flex items-center space-x-2">
+              <button id="snapBtn" onclick="triggerCountdown()" class="btn-vintage bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold py-3 px-6 text-sm rounded flex items-center space-x-2">
+                <i data-lucide="aperture" class="w-5 h-5"></i>
+                <span>AMBIL FOTO</span>
+              </button>
+              
+              <label class="btn-vintage bg-stone-200 hover:bg-stone-100 text-stone-900 font-bold py-3 px-4 text-sm rounded cursor-pointer flex items-center space-x-1" title="Unggah Foto Foto">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                <input type="file" accept="image/*" multiple class="hidden" onchange="handleFileUpload(event)">
+              </label>
+            </div>
+
+            <button id="nextToFilterBtn" disabled onclick="goToStep(3)" class="btn-vintage bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:hover:bg-emerald-600 text-white font-bold py-2.5 px-5 text-sm rounded flex items-center space-x-2">
+              <span>Lanjut Filter</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: PHOTO FILTERS & ADJUSTMENT -->
+    <section id="filterScreen" class="w-full max-w-4xl hidden">
+      <div class="paper-texture p-4 sm:p-6 rounded-sm border-4 border-stone-900">
+        <div class="border-2 border-stone-900 p-4 sm:p-6">
+          
+          <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-stone-900">
+            <div>
+              <h3 class="font-wanted text-xl text-stone-900">PILIH FILTER VINTAGE</h3>
+              <p class="text-xs font-newspaper text-stone-700">Terapkan efek retro ke semua foto sekaligus atau satu-per-satu</p>
+            </div>
+            <button onclick="resetFilters()" class="text-xs font-newspaper text-amber-900 underline font-bold hover:text-stone-900">
+              Reset Filter
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+            <!-- Filter Options Sidebar -->
+            <div class="md:col-span-4 flex flex-col space-y-2">
+              <span class="text-xs font-newspaper uppercase font-bold text-stone-800">Pilihan Filter:</span>
+              
+              <button onclick="applyFilterToAll('original')" class="filter-btn btn-vintage w-full p-2.5 text-left font-newspaper text-xs font-bold bg-stone-200 hover:bg-amber-200 rounded flex justify-between items-center">
+                <span>1. Original (Tanpa Efek)</span>
+                <i data-lucide="image" class="w-4 h-4"></i>
+              </button>
+              <button onclick="applyFilterToAll('vintage')" class="filter-btn btn-vintage w-full p-2.5 text-left font-newspaper text-xs font-bold bg-amber-200 hover:bg-amber-300 rounded flex justify-between items-center border-amber-800">
+                <span>2. Vintage Wanted (Rekomendasi)</span>
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-800"></i>
+              </button>
+              <button onclick="applyFilterToAll('bw')" class="filter-btn btn-vintage w-full p-2.5 text-left font-newspaper text-xs font-bold bg-stone-200 hover:bg-amber-200 rounded flex justify-between items-center">
+                <span>3. Black & White Newspaper</span>
+                <i data-lucide="film" class="w-4 h-4"></i>
+              </button>
+              <button onclick="applyFilterToAll('sepia')" class="filter-btn btn-vintage w-full p-2.5 text-left font-newspaper text-xs font-bold bg-stone-200 hover:bg-amber-200 rounded flex justify-between items-center">
+                <span>4. Classic Sepia Tone</span>
+                <i data-lucide="sun" class="w-4 h-4"></i>
+              </button>
+              <button onclick="applyFilterToAll('warm')" class="filter-btn btn-vintage w-full p-2.5 text-left font-newspaper text-xs font-bold bg-stone-200 hover:bg-amber-200 rounded flex justify-between items-center">
+                <span>5. Warm Sunset</span>
+                <i data-lucide="flame" class="w-4 h-4"></i>
+              </button>
+              <button onclick="applyFilterToAll('contrast')" class="filter-btn btn-vintage w-full p-2.5 text-left font-newspaper text-xs font-bold bg-stone-200 hover:bg-amber-200 rounded flex justify-between items-center">
+                <span>6. High Contrast Vintage</span>
+                <i data-lucide="contrast" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- Preview 4 Canvas Filtered Images -->
+            <div class="md:col-span-8 bg-stone-900 p-4 rounded border-2 border-stone-900 grid grid-cols-2 gap-3">
+              <div class="relative bg-stone-950 aspect-[4/3] rounded overflow-hidden border border-stone-800 flex items-center justify-center">
+                <canvas id="filterCanvas0" class="w-full h-full object-cover"></canvas>
+                <span class="absolute top-1 left-1 bg-stone-900/80 text-amber-200 text-[10px] px-1.5 py-0.5 rounded font-newspaper">Foto 1</span>
+              </div>
+              <div class="relative bg-stone-950 aspect-[4/3] rounded overflow-hidden border border-stone-800 flex items-center justify-center">
+                <canvas id="filterCanvas1" class="w-full h-full object-cover"></canvas>
+                <span class="absolute top-1 left-1 bg-stone-900/80 text-amber-200 text-[10px] px-1.5 py-0.5 rounded font-newspaper">Foto 2</span>
+              </div>
+              <div class="relative bg-stone-950 aspect-[4/3] rounded overflow-hidden border border-stone-800 flex items-center justify-center">
+                <canvas id="filterCanvas2" class="w-full h-full object-cover"></canvas>
+                <span class="absolute top-1 left-1 bg-stone-900/80 text-amber-200 text-[10px] px-1.5 py-0.5 rounded font-newspaper">Foto 3</span>
+              </div>
+              <div class="relative bg-stone-950 aspect-[4/3] rounded overflow-hidden border border-stone-800 flex items-center justify-center">
+                <canvas id="filterCanvas3" class="w-full h-full object-cover"></canvas>
+                <span class="absolute top-1 left-1 bg-stone-900/80 text-amber-200 text-[10px] px-1.5 py-0.5 rounded font-newspaper">Foto 4</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="flex justify-between items-center pt-3 border-t-2 border-stone-900">
+            <button onclick="goToStep(2)" class="btn-vintage bg-stone-300 hover:bg-stone-200 text-stone-900 font-bold py-2.5 px-4 text-sm rounded flex items-center space-x-2">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              <span>Foto Ulang</span>
+            </button>
+
+            <button onclick="goToStep(4)" class="btn-vintage bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-6 text-sm rounded flex items-center space-x-2">
+              <span>Pratinjau Poster & Pembayaran</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4: POSTER PREVIEW & CASH PAYMENT -->
+    <section id="previewPaymentScreen" class="w-full max-w-4xl hidden">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        
+        <!-- Left Column: Poster Canvas Preview (A4 Portrait Ratio 210x297) -->
+        <div class="md:col-span-7 flex flex-col items-center">
+          <div class="paper-texture p-3 sm:p-4 rounded border-4 border-stone-900 shadow-2xl w-full max-w-md">
+            <!-- Hidden Export Canvas -->
+            <canvas id="posterCanvas" class="w-full h-auto rounded border border-stone-900 shadow-md block"></canvas>
+          </div>
+          <p class="text-xs font-newspaper text-stone-400 mt-2 text-center">
+            *Hasil rendering resolusi tinggi A4 (2480 x 3508 px)
+          </p>
+        </div>
+
+        <!-- Right Column: Order Summary & Cash Payment Action -->
+        <div class="md:col-span-5">
+          <div class="paper-texture p-6 rounded-sm border-4 border-stone-900">
+            <div class="border-2 border-stone-900 p-5">
+              
+              <h3 class="font-wanted text-xl text-stone-900 mb-1">RINGKASAN SESI</h3>
+              <p class="text-xs font-newspaper text-stone-700 mb-4 pb-3 border-b-2 border-stone-900">
+                Gelar Karya Kelompok B PPKn 2026
+              </p>
+
+              <div class="space-y-3 font-newspaper text-xs mb-6">
+                <div class="flex justify-between text-stone-800">
+                  <span>Produk:</span>
+                  <span class="font-bold">Photobooth PPG 2026</span>
+                </div>
+                <div class="flex justify-between text-stone-800">
+                  <span>Jumlah Sesi:</span>
+                  <span class="font-bold">1 Sesi (4 Foto)</span>
+                </div>
+                <div class="flex justify-between text-stone-800">
+                  <span>Metode Pembayaran:</span>
+                  <span class="font-bold uppercase text-amber-900">Tunai / Cash</span>
+                </div>
+                <div class="border-t border-stone-900 pt-2 flex justify-between text-sm font-bold text-stone-900">
+                  <span>Total Bayar:</span>
+                  <span class="text-base text-amber-900">Rp 15.000</span>
+                </div>
+              </div>
+
+              <!-- Payment Status Box -->
+              <div id="paymentStatusBox" class="bg-amber-100/90 border-2 border-dashed border-stone-900 p-4 rounded mb-6 text-center">
+                <i data-lucide="clock" class="w-8 h-8 text-amber-800 mx-auto mb-1"></i>
+                <div class="font-newspaper text-xs font-bold text-stone-900 uppercase">Menunggu Pembayaran Tunai</div>
+                <p class="text-[11px] font-newspaper text-stone-700 mt-1">
+                  Silakan lakukan pembayaran sebesar Rp 15.000 ke kasir booth secara langsung.
+                </p>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="space-y-3">
+                <button id="payConfirmBtn" onclick="openCashModal()" class="btn-vintage w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 text-sm rounded flex items-center justify-center space-x-2">
+                  <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                  <span>KONFIRMASI PEMBAYARAN TUNAI</span>
+                </button>
+
+                <button id="downloadBtn" disabled onclick="downloadPosterPNG()" class="btn-vintage w-full bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:hover:bg-amber-600 text-stone-950 font-bold py-3.5 px-4 text-sm rounded flex items-center justify-center space-x-2">
+                  <i data-lucide="download" class="w-5 h-5"></i>
+                  <span>DOWNLOAD POSTER (PNG)</span>
+                </button>
+
+                <div class="flex space-x-2 pt-2">
+                  <button onclick="goToStep(3)" class="btn-vintage flex-1 bg-stone-300 hover:bg-stone-200 text-stone-900 font-bold py-2 px-3 text-xs rounded">
+                    Ubah Filter
+                  </button>
+                  <button onclick="startNewSession()" class="btn-vintage flex-1 bg-stone-200 hover:bg-stone-100 text-stone-900 font-bold py-2 px-3 text-xs rounded">
+                    Sesi Baru
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CASH PAYMENT MODAL -->
+  <div id="cashModal" class="fixed inset-0 bg-stone-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="paper-texture max-w-md w-full p-6 rounded-sm border-4 border-stone-900 shadow-2xl animate-in fade-in zoom-in-95">
+      <div class="border-2 border-stone-900 p-5 text-center">
+        
+        <div class="w-12 h-12 bg-amber-200 border-2 border-stone-900 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="banknote" class="w-6 h-6 text-amber-900"></i>
+        </div>
+
+        <h4 class="font-wanted text-lg text-stone-900 mb-2">KONFIRMASI PEMBAYARAN TUNAI</h4>
+        
+        <p class="font-newspaper text-xs text-stone-800 leading-relaxed mb-6">
+          Apakah Anda menyatakan telah menyerahkan uang tunai sebesar <b>Rp 15.000</b> kepada petugas booth Gelar Karya Kelompok B PPKn?
+        </p>
+
+        <div class="flex space-x-3">
+          <button onclick="closeCashModal()" class="btn-vintage flex-1 bg-stone-300 hover:bg-stone-200 text-stone-900 font-bold py-2.5 px-4 text-xs rounded">
+            KEMBALI
+          </button>
+          <button onclick="confirmCashPayment()" class="btn-vintage flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 text-xs rounded">
+            YA, KONFIRMASI
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Info -->
+  <footer class="border-t border-stone-800 bg-stone-950 py-3 text-center text-xs text-stone-500 font-newspaper">
+    PPG Photobooth &copy; 2026 Gelar Karya Kelompok B PPKn — Siap Deploy ke Vercel
+  </footer>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    // App State Management
+    let currentStep = 1;
+    let mediaStream = null;
+    let capturedPhotos = []; // array of ImageData / HTMLImageElement
+    let filteredPhotos = []; // array of HTMLCanvasElement
+    let currentFilter = 'vintage';
+    let paymentConfirmed = false;
+
+    // Canvas & Context Setup
+    const POSTER_WIDTH = 2480;  // A4 Standard @ 300 DPI Portrait
+    const POSTER_HEIGHT = 3508;
+
+    // DOM Elements
+    const videoFeed = document.getElementById('videoFeed');
+    const snapBtn = document.getElementById('snapBtn');
+    const countdownOverlay = document.getElementById('countdownOverlay');
+    const countdownText = document.getElementById('countdownText');
+    const flashOverlay = document.getElementById('flashOverlay');
+    const posterCanvas = document.getElementById('posterCanvas');
+
+    // Initialize Lucide Icons on DOM Load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initPosterCanvas();
+    });
+
+    // Step Navigation Logic
+    function goToStep(step) {
+      currentStep = step;
+
+      // Update Step Indicators
+      for (let i = 1; i <= 5; i++) {
+        const ind = document.getElementById(`step-${i}-indicator`);
+        if (i === step) {
+          ind.className = "flex items-center text-amber-400 font-bold";
+          ind.querySelector('span').className = "w-6 h-6 rounded-full border border-amber-500 bg-amber-950 flex items-center justify-center mr-2";
+        } else if (i < step) {
+          ind.className = "flex items-center text-emerald-400";
+          ind.querySelector('span').className = "w-6 h-6 rounded-full border border-emerald-600 bg-emerald-950 flex items-center justify-center mr-2";
+        } else {
+          ind.className = "flex items-center text-stone-500";
+          ind.querySelector('span').className = "w-6 h-6 rounded-full border border-stone-700 bg-stone-900 flex items-center justify-center mr-2";
+        }
+      }
+
+      // Hide All Screens
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('cameraScreen').classList.add('hidden');
+      document.getElementById('filterScreen').classList.add('hidden');
+      document.getElementById('previewPaymentScreen').classList.add('hidden');
+
+      // Show Selected Screen
+      if (step === 1) {
+        document.getElementById('welcomeScreen').classList.remove('hidden');
+        stopCamera();
+      } else if (step === 2) {
+        document.getElementById('cameraScreen').classList.remove('hidden');
+        startCamera();
+      } else if (step === 3) {
+        document.getElementById('filterScreen').classList.remove('hidden');
+        stopCamera();
+        processFilterPreviews();
+      } else if (step === 4 || step === 5) {
+        document.getElementById('previewPaymentScreen').classList.remove('hidden');
+        stopCamera();
+        renderPosterCanvas();
+      }
+    }
+
+    // Camera Access & Handling
+    async function startCamera() {
+      const errorMsg = document.getElementById('cameraErrorMsg');
+      errorMsg.classList.add('hidden');
+
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: { width: { ideal: 1280 }, height: { ideal: 960 }, facingMode: "user" },
+            audio: false
+          });
+          videoFeed.srcObject = mediaStream;
+        } else {
+          throw new Error("Browser API tidak mendukung getUserMedia");
+        }
+      } catch (err) {
+        console.warn("Kamera gagal diakses:", err);
+        errorMsg.classList.remove('hidden');
+      }
+    }
+
+    function stopCamera() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+        mediaStream = null;
+      }
+    }
+
+    // Countdown and Snap Action
+    function triggerCountdown() {
+      if (capturedPhotos.length >= 4) return;
+      snapBtn.disabled = true;
+
+      let count = 3;
+      countdownOverlay.classList.remove('hidden');
+      countdownText.innerText = count;
+
+      const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownText.innerText = count;
+        } else {
+          clearInterval(timer);
+          countdownOverlay.classList.add('hidden');
+          capturePhotoFromStream();
+          snapBtn.disabled = false;
+        }
+      }, 900);
+    }
+
+    function capturePhotoFromStream() {
+      // Trigger camera flash visual
+      flashOverlay.style.opacity = '1';
+      setTimeout(() => { flashOverlay.style.opacity = '0'; }, 150);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+
+      // Draw mirrored video frame
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(videoFeed, 0, 0, canvas.width, canvas.height);
+
+      const img = new Image();
+      img.src = canvas.toDataURL('image/jpeg');
+      img.onload = () => {
+        capturedPhotos.push(img);
+        updatePhotoGridUI();
+      };
+    }
+
+    // Handle Local File Upload Fallback
+    function handleFileUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      Array.from(files).forEach(file => {
+        if (capturedPhotos.length < 4) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+              capturedPhotos.push(img);
+              updatePhotoGridUI();
+            };
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    // Update Photo Thumbnails Grid
+    function updatePhotoGridUI() {
+      for (let i = 0; i < 4; i++) {
+        const slot = document.getElementById(`slot-${i}`);
+        if (capturedPhotos[i]) {
+          slot.innerHTML = `<img src="${capturedPhotos[i].src}" class="w-full h-full object-cover rounded border border-stone-900" />
+                            <button onclick="removePhoto(${i})" class="absolute top-1 right-1 bg-red-800 text-white p-0.5 rounded-full hover:bg-red-700">
+                              <i data-lucide="x" class="w-3 h-3"></i>
+                            </button>`;
+        } else {
+          slot.innerHTML = `Slot ${i + 1}`;
+        }
+      }
+      lucide.createIcons();
+
+      document.getElementById('photoCountBadge').innerText = `Foto ${capturedPhotos.length} dari 4`;
+      document.getElementById('nextToFilterBtn').disabled = capturedPhotos.length < 4;
+    }
+
+    function removePhoto(index) {
+      capturedPhotos.splice(index, 1);
+      updatePhotoGridUI();
+    }
+
+    // Filter Processing via Canvas API
+    function processFilterPreviews() {
+      filteredPhotos = [];
+      for (let i = 0; i < 4; i++) {
+        const targetCanvas = document.getElementById(`filterCanvas${i}`);
+        targetCanvas.width = 600;
+        targetCanvas.height = 450;
+        const ctx = targetCanvas.getContext('2d');
+
+        if (capturedPhotos[i]) {
+          // Draw base image
+          ctx.drawImage(capturedPhotos[i], 0, 0, targetCanvas.width, targetCanvas.height);
+          applyFilterToCanvas(ctx, targetCanvas.width, targetCanvas.height, currentFilter);
+        } else {
+          ctx.fillStyle = '#333';
+          ctx.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
+        }
+        filteredPhotos.push(targetCanvas);
+      }
+    }
+
+    function applyFilterToAll(filterType) {
+      currentFilter = filterType;
+      processFilterPreviews();
+    }
+
+    function resetFilters() {
+      currentFilter = 'original';
+      processFilterPreviews();
+    }
+
+    function applyFilterToCanvas(ctx, width, height, filter) {
+      const imageData = ctx.getImageData(0, 0, width, height);
+      const data = imageData.data;
+
+      for (let i = 0; i < data.length; i += 4) {
+        let r = data[i];
+        let g = data[i + 1];
+        let b = data[i + 2];
+
+        if (filter === 'bw') {
+          let avg = 0.3 * r + 0.59 * g + 0.11 * b;
+          data[i] = avg;
+          data[i + 1] = avg;
+          data[i + 2] = avg;
+        } else if (filter === 'sepia') {
+          data[i] = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
+          data[i + 1] = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
+          data[i + 2] = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+        } else if (filter === 'vintage') {
+          // Sepia base + enhanced contrast & warmth
+          data[i] = Math.min(255, (r * 0.45) + (g * 0.65) + (b * 0.2));
+          data[i + 1] = Math.min(255, (r * 0.35) + (g * 0.55) + (b * 0.15));
+          data[i + 2] = Math.min(255, (r * 0.25) + (g * 0.40) + (b * 0.1));
+        } else if (filter === 'warm') {
+          data[i] = Math.min(255, r * 1.15);
+          data[i + 1] = Math.min(255, g * 1.05);
+          data[i + 2] = Math.max(0, b * 0.9);
+        } else if (filter === 'contrast') {
+          let factor = (259 * (128 + 255)) / (255 * (259 - 128));
+          data[i] = Math.min(255, Math.max(0, factor * (r - 128) + 128));
+          data[i + 1] = Math.min(255, Math.max(0, factor * (g - 128) + 128));
+          data[i + 2] = Math.min(255, Math.max(0, factor * (b - 128) + 128));
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+    }
+
+    // Initialize Poster Canvas Dimensions
+    function initPosterCanvas() {
+      posterCanvas.width = POSTER_WIDTH;
+      posterCanvas.height = POSTER_HEIGHT;
+    }
+
+    // Final Poster Rendering strictly following the reference template
+    function renderPosterCanvas() {
+      const ctx = posterCanvas.getContext('2d');
+
+      // 1. Paper Base & Background Texture
+      ctx.fillStyle = '#f2e8d5';
+      ctx.fillRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT);
+
+      // Vignette effect on canvas
+      const grad = ctx.createRadialGradient(
+        POSTER_WIDTH / 2, POSTER_HEIGHT / 2, POSTER_WIDTH * 0.3,
+        POSTER_WIDTH / 2, POSTER_HEIGHT / 2, POSTER_WIDTH * 0.75
+      );
+      grad.addColorStop(0, 'rgba(242, 232, 213, 0)');
+      grad.addColorStop(1, 'rgba(80, 50, 20, 0.25)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, POSTER_WIDTH, POSTER_HEIGHT);
+
+      // Outer Vintage Border
+      ctx.strokeStyle = '#1a1612';
+      ctx.lineWidth = 16;
+      ctx.strokeRect(60, 60, POSTER_WIDTH - 120, POSTER_HEIGHT - 120);
+      ctx.lineWidth = 6;
+      ctx.strokeRect(80, 80, POSTER_WIDTH - 160, POSTER_HEIGHT - 160);
+
+      // SECTION A: HEADER PALING ATAS
+      ctx.strokeStyle = '#1a1612';
+      ctx.lineWidth = 8;
+      
+      // Header Box Left
+      ctx.strokeRect(120, 120, 500, 180);
+      ctx.font = 'bold 36px "Special Elite", monospace';
+      ctx.fillStyle = '#1a1612';
+      ctx.textAlign = 'center';
+      ctx.fillText('BREAKING NEWS', 370, 225);
+
+      // Header Box Center (✦ PPG CLASSIFIED ✦)
+      ctx.font = 'bold 54px "Playfair Display", serif';
+      ctx.fillText('✦ PPG CLASSIFIED ✦', POSTER_WIDTH / 2, 225);
+
+      // Header Box Right
+      ctx.strokeRect(POSTER_WIDTH - 620, 120, 500, 180);
+      ctx.font = 'bold 36px "Special Elite", monospace';
+      ctx.fillText('BREAKING NEWS', POSTER_WIDTH - 370, 225);
+
+      // SECTION B: BARIS INFORMASI KEDUA
+      ctx.fillStyle = '#1a1612';
+      ctx.fillRect(120, 340, POSTER_WIDTH - 240, 90);
+      
+      ctx.fillStyle = '#f2e8d5';
+      ctx.font = 'bold 38px "Special Elite", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText('VOL. 02, NO. 2026', 160, 400);
+      
+      ctx.textAlign = 'center';
+      ctx.fillText('✦ GELAR KARYA ✦', POSTER_WIDTH / 2, 400);
+
+      ctx.textAlign = 'right';
+      ctx.fillText('KELOMPOK B PPKn', POSTER_WIDTH - 160, 400);
+
+      // SECTION C: JUDUL POSTER BESAR "WANTED"
+      ctx.fillStyle = '#1a1612';
+      ctx.font = 'bold 280px "Rye", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('WANTED', POSTER_WIDTH / 2, 750);
+
+      // Double Divider Lines under WANTED
+      ctx.lineWidth = 12;
+      ctx.beginPath();
+      ctx.moveTo(120, 800);
+      ctx.lineTo(POSTER_WIDTH - 120, 800);
+      ctx.stroke();
+
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(120, 820);
+      ctx.lineTo(POSTER_WIDTH - 120, 820);
+      ctx.stroke();
+
+      // SECTION D: AREA FOTO PHOTOBOOTH (2x2 Grid)
+      const gridX = 140;
+      const gridY = 870;
+      const gridWidth = POSTER_WIDTH - 280; // 2200 px
+      const gridHeight = 1850;
+      const cellGap = 40;
+      const cellW = (gridWidth - cellGap) / 2; // 1080 px
+      const cellH = (gridHeight - cellGap) / 2; // 905 px
+
+      const positions = [
+        { x: gridX, y: gridY },
+        { x: gridX + cellW + cellGap, y: gridY },
+        { x: gridX, y: gridY + cellH + cellGap },
+        { x: gridX + cellW + cellGap, y: gridY + cellH + cellGap }
+      ];
+
+      for (let i = 0; i < 4; i++) {
+        const pos = positions[i];
+        
+        // Draw frame border
+        ctx.strokeStyle = '#1a1612';
+        ctx.lineWidth = 8;
+        ctx.strokeRect(pos.x, pos.y, cellW, cellH);
+
+        if (filteredPhotos[i]) {
+          // Draw filtered image canvas
+          ctx.drawImage(filteredPhotos[i], pos.x + 8, pos.y + 8, cellW - 16, cellH - 16);
+        } else {
+          // Placeholder
+          ctx.fillStyle = '#dcd0b9';
+          ctx.fillRect(pos.x + 8, pos.y + 8, cellW - 16, cellH - 16);
+          ctx.fillStyle = '#1a1612';
+          ctx.font = 'bold 42px "Special Elite", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('Your Photo Here', pos.x + cellW / 2, pos.y + cellH / 2);
+        }
+      }
+
+      // SECTION E: BAGIAN FOOTER POSTER (THANK YOU FOR COMING)
+      const footerY = 2820;
+      ctx.fillStyle = '#1a1612';
+      ctx.font = 'bold 150px "Rye", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('THANK YOU', POSTER_WIDTH / 2, footerY + 120);
+
+      ctx.font = 'bold 120px "Rye", serif';
+      ctx.fillText('★ FOR COMING ★', POSTER_WIDTH / 2, footerY + 280);
+
+      // SECTION F: TANGGAL POSTER
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yy = String(today.getFullYear()).slice(-2);
+      const dateStr = `${dd}/${mm}/${yy}`;
+
+      ctx.font = 'bold 36px "Special Elite", monospace';
+      ctx.textAlign = 'right';
+      ctx.fillText(`DATE: ${dateStr}`, POSTER_WIDTH - 140, POSTER_HEIGHT - 130);
+    }
+
+    // Cash Modal Actions
+    function openCashModal() {
+      document.getElementById('cashModal').classList.remove('hidden');
+    }
+
+    function closeCashModal() {
+      document.getElementById('cashModal').classList.add('hidden');
+    }
+
+    function confirmCashPayment() {
+      paymentConfirmed = true;
+      closeCashModal();
+
+      // Update Payment Status UI
+      const payStatusBox = document.getElementById('paymentStatusBox');
+      payStatusBox.className = "bg-emerald-100/90 border-2 border-dashed border-emerald-800 p-4 rounded mb-6 text-center";
+      payStatusBox.innerHTML = `
+        <i data-lucide="check-circle" class="w-8 h-8 text-emerald-800 mx-auto mb-1"></i>
+        <div class="font-newspaper text-xs font-bold text-emerald-950 uppercase">Pembayaran Tunai Dikonfirmasi</div>
+        <p class="text-[11px] font-newspaper text-emerald-800 mt-1">
+          Terima kasih! Sesi Anda telah diverifikasi. Silakan unduh poster Anda.
+        </p>
+      `;
+      lucide.createIcons();
+
+      // Disable Confirm Button and Enable Download
+      document.getElementById('payConfirmBtn').disabled = true;
+      document.getElementById('payConfirmBtn').classList.add('opacity-50');
+      
+      const dlBtn = document.getElementById('downloadBtn');
+      dlBtn.disabled = false;
+      dlBtn.classList.remove('opacity-50');
+      dlBtn.className = "btn-vintage w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold py-3.5 px-4 text-sm rounded flex items-center justify-center space-x-2";
+
+      goToStep(5);
+    }
+
+    // Export Poster as High-Resolution PNG
+    function downloadPosterPNG() {
+      if (!paymentConfirmed) return;
+
+      const link = document.createElement('a');
+      link.download = 'PPG-Photobooth-Kelompok-B-PPKn-2026.png';
+      link.href = posterCanvas.toDataURL('image/png', 1.0);
+      link.click();
+    }
+
+    // Start New Photobooth Session
+    function startNewSession() {
+      capturedPhotos = [];
+      filteredPhotos = [];
+      paymentConfirmed = false;
+      currentFilter = 'vintage';
+
+      // Reset Payment UI
+      const payStatusBox = document.getElementById('paymentStatusBox');
+      payStatusBox.className = "bg-amber-100/90 border-2 border-dashed border-stone-900 p-4 rounded mb-6 text-center";
+      payStatusBox.innerHTML = `
+        <i data-lucide="clock" class="w-8 h-8 text-amber-800 mx-auto mb-1"></i>
+        <div class="font-newspaper text-xs font-bold text-stone-900 uppercase">Menunggu Pembayaran Tunai</div>
+        <p class="text-[11px] font-newspaper text-stone-700 mt-1">
+          Silakan lakukan pembayaran sebesar Rp 15.000 ke kasir booth secara langsung.
+        </p>
+      `;
+      document.getElementById('payConfirmBtn').disabled = false;
+      document.getElementById('payConfirmBtn').classList.remove('opacity-50');
+
+      const dlBtn = document.getElementById('downloadBtn');
+      dlBtn.disabled = true;
+      dlBtn.classList.add('opacity-50');
+
+      updatePhotoGridUI();
+      goToStep(1);
+    }
+  </script>
+</body>
+</html>
